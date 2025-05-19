@@ -1,0 +1,6 @@
+---
+name: gitea
+
+files:
+- meta-info/blobs-versions.env
+- gitea/gitea-*

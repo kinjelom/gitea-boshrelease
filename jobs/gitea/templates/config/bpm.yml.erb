@@ -1,0 +1,23 @@
+processes:
+  - name: gitea
+    executable: /var/vcap/packages/gitea/bin/gitea
+    ephemeral_disk: true
+    persistent_disk: true
+    additional_volumes:
+      - path: /var/vcap/sys/run/gitea
+        writable: true
+      - path: /var/vcap/sys/log/gitea
+        writable: true
+      - path: /var/vcap/sys/tmp/gitea
+        writable: true
+    args:
+      - web
+      - --config
+      - /var/vcap/store/gitea/config/app.ini
+      - --pid
+      - /var/vcap/sys/run/gitea/gitea-web.pid
+    env:
+      PATH: "$PATH:/var/vcap/packages/git/bin"
+    <%- p("gitea.env", {}).each do |key, val| -%>
+      <%= key %>: <%= val %>
+    <%- end -%>

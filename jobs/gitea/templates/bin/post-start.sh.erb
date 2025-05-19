@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export LOG_DIR=/var/vcap/sys/log/gitea
+
+SCRIPT_NAME=$(basename "$0")
+exec 1>> "${LOG_DIR}/${SCRIPT_NAME}.stdout.log"
+exec 2>> "${LOG_DIR}/${SCRIPT_NAME}.stderr.log"
+source /var/vcap/packages/common/script_utils.sh
+source /var/vcap/jobs/gitea/functions/bootstrap.sh
+
+log_info "--- ${SCRIPT_NAME} begin"
+
+<%- p('gitea.bootstrap.users', {}).each do |username, user_opts| -%>
+log_info "ensure_gitea_user <%= username %> ..."
+ensure_gitea_user "<%= username %>" "<%= user_opts['email'] %>" "<%= user_opts['password'] %>" "<%= user_opts['admin'] %>"
+<% end %>
+
+log_info "--- ${SCRIPT_NAME} end"

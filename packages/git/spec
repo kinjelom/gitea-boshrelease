@@ -1,0 +1,6 @@
+---
+name: git
+
+files:
+- meta-info/blobs-versions.env
+- git/git-*

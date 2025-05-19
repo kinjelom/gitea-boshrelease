@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -eux
+
+source meta-info/blobs-versions.env
+
+# Detect number of CPUs so make jobs can be parallelized
+CPUS=$(grep -c ^processor /proc/cpuinfo)
+export CUPS
+export HOME=/var/vcap
+
+# ungzip
+tar -xzf "${BOSH_COMPILE_TARGET}/git/git-${GIT_VERSION}.tar.gz" -C "${BOSH_COMPILE_TARGET}/git/"
+cd "${BOSH_COMPILE_TARGET}/git/git-${GIT_VERSION}" || exit
+
+# Configure and install
+mkdir -p "${BOSH_INSTALL_TARGET}/bin"
+
+make configure
+./configure --prefix="${BOSH_INSTALL_TARGET}"
+make  -j "$CPUS" all
+make install
+

@@ -1,0 +1,32 @@
+;; https://docs.gitea.com/administration/config-cheat-sheet
+<%-
+  require 'active_support/core_ext/hash/deep_merge'
+  base_config = p("gitea.app_ini.base", {})
+  custom_config = p("gitea.app_ini.custom", {})
+  merged_config = base_config.deep_merge(custom_config)
+
+  # merged_config = base_config.clone
+  # custom_config.each do |section, values|
+  #   merged_config[section] ||= {}
+  #   merged_config[section].merge!(values)
+  # end
+-%>
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Settings
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+<%- merged_config["general"].each do |key, val| -%>
+<%= key %> = <%= val %>
+<%-
+  end
+  merged_config.delete("general")
+-%>
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+<%-
+  merged_config.each do |section_name, section_map|
+-%>
+
+[<%= section_name %>]
+<%- section_map.each do |key, val| -%>
+<%= key %> = <%= val %>
+<%- end -%>
+<%- end -%>

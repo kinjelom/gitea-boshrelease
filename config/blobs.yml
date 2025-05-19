@@ -1,0 +1,8 @@
+git/git-2.49.0.tar.gz:
+  size: 11530700
+  object_id: 8f557e51-d775-42c3-644b-d04b26cc9486
+  sha: sha256:f8047f572f665bebeb637fd5f14678f31b3ca5d2ff9a18f20bd925bd48f75d3c
+gitea/gitea-v1.23.8:
+  size: 114507792
+  object_id: b569a094-5dab-4f70-77a6-df0ebc3d8298
+  sha: sha256:827037e7ca940866918abc62a7488736923396c467fcb4acd0dd9829bb6a6f4c

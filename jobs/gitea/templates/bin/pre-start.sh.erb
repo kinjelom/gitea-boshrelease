@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+export LOG_DIR=/var/vcap/sys/log/gitea
+export JOB_DIR=/var/vcap/jobs/gitea
+export STORE_DIR=/var/vcap/store/gitea
+mkdir -p "$LOG_DIR" "$STORE_DIR/config"
+chown vcap:vcap -R "$LOG_DIR" "$STORE_DIR"
+
+SCRIPT_NAME=$(basename "$0")
+exec 1>> "${LOG_DIR}/${SCRIPT_NAME}.stdout.log"
+exec 2>> "${LOG_DIR}/${SCRIPT_NAME}.stderr.log"
+source /var/vcap/packages/common/script_utils.sh
+
+log_info "--- ${SCRIPT_NAME} begin"
+
+cp "${JOB_DIR}/config/app.ini" "${STORE_DIR}/config/app.ini"
+chown vcap:vcap "${STORE_DIR}/config/app.ini"
+
+log_info "--- ${SCRIPT_NAME} end"
