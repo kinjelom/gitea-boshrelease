@@ -1,0 +1,28 @@
+name: gitea
+version: 0.2.0
+commit_hash: "7715744"
+uncommitted_changes: false
+jobs:
+- name: gitea
+  version: c1b5c8f0c6811e3c383de556bebe572035f1bfe761b52baca95e4b6ae394c7fb
+  fingerprint: c1b5c8f0c6811e3c383de556bebe572035f1bfe761b52baca95e4b6ae394c7fb
+  sha1: sha256:c43f1572b30ab66337898cbbcc93c010684499619e3e6bc93833f9258ad6930b
+  packages:
+  - gitea
+  - git
+packages:
+- name: common
+  version: d566b9814988d273913db52b9190ddc6e12a28511fdab083edd0822f5c581e93
+  fingerprint: d566b9814988d273913db52b9190ddc6e12a28511fdab083edd0822f5c581e93
+  sha1: sha256:2d2a9951da80f89add85df76b456cf64b172ac1acaa2fcf641d00d51933536e5
+  dependencies: []
+- name: git
+  version: 97520aa557387d11620c9872fce411c3a37c0ad6f293157dc20b74239d022a4c
+  fingerprint: 97520aa557387d11620c9872fce411c3a37c0ad6f293157dc20b74239d022a4c
+  sha1: sha256:ac60d3ab7f49db14d72979b04ada690d8d9b2e72a2e25cbaa6bff87377b61e96
+  dependencies: []
+- name: gitea
+  version: 47f460277bd52a6223cedc1a838548986679716cce8512012a4bb1f89890dc99
+  fingerprint: 47f460277bd52a6223cedc1a838548986679716cce8512012a4bb1f89890dc99
+  sha1: sha256:59c59b2d1924f4a142ec9cd7daed46997a447c078b86d418cfec2783b405ad1d
+  dependencies: []
