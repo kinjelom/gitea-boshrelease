@@ -4,6 +4,11 @@ set -eux
 
 source meta-info/blobs-versions.env
 
+# Copy common utils
+mkdir -p "${BOSH_INSTALL_TARGET}/common"
+cp -a "${BOSH_COMPILE_TARGET}/common/"* "${BOSH_INSTALL_TARGET}/common"
+
+# gitea
 mkdir -p "${BOSH_INSTALL_TARGET}/bin"
 mv "${BOSH_COMPILE_TARGET}/gitea/gitea-v${GITEA_VERSION}" "${BOSH_INSTALL_TARGET}/bin/gitea"
 chmod +x "${BOSH_INSTALL_TARGET}/bin/gitea"

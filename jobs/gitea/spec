@@ -4,14 +4,13 @@ name: gitea
 templates:
   bin/pre-start.sh.erb: bin/pre-start
   bin/post-start.sh.erb: bin/post-start
+  bin/gitea_ctl.sh.erb: bin/gitea_ctl
   functions/bootstrap.sh: functions/bootstrap.sh
-  config/bpm.yml.erb: config/bpm.yml
   config/app.ini.erb: config/app.ini
 
 packages:
 - gitea
 - git
-- common
 
 properties:
 
@@ -39,8 +38,15 @@ properties:
         PROTOCOL: http
         HTTP_PORT: 9090
         DOMAIN: gitea.example.com
+        ROOT_URL: "https://gitea.example.com/"
         APP_DATA_PATH: /var/vcap/store/gitea/data
-        DISABLE_SSH: true
+        START_SSH_SERVER: true
+        DISABLE_SSH: false
+        SSH_LISTEN_HOST: 0.0.0.0
+        SSH_LISTEN_PORT: 9022
+        SSH_DOMAIN: gitea.example.com
+        SSH_PORT: 9022
+        MINIMUM_KEY_SIZE_CHECK : false
         LFS_START_SERVER: true
         LFS_JWT_SECRET: ""
         OFFLINE_MODE: true
@@ -107,24 +113,31 @@ properties:
     default: {}
     example:
       general:
-        APP_NAME: "Gitea Example"
+        APP_NAME               : ((deployment_name))
       server:
-        HTTP_PORT: 9090
-        DOMAIN: gitea.example.com
+        HTTP_PORT              : ((gitea_web_port))
+        DOMAIN                 : ((gitea_web_domain))
+        ROOT_URL               : "https://((gitea_web_domain))/"
+        START_SSH_SERVER       : true
+        DISABLE_SSH            : false
+        SSH_LISTEN_HOST        : 0.0.0.0
+        SSH_LISTEN_PORT        : ((gitea_ssh_port))
+        SSH_DOMAIN             : "((gitea_ssh_domain))"
+        SSH_PORT               : ((gitea_ssh_port))
+        MINIMUM_KEY_SIZE_CHECK : false
       mailer:
-        ENABLED: true
-        SMTP_ADDR: smtp.example.com
-        SMTP_PORT: 25
-        FROM: gitea@example.com
+        ENABLED                : true
+        SMTP_ADDR              : ((smtp_addr))
+        SMTP_PORT              : ((smtp_port))
+        FROM                   : ((mailer_from))
       database:
-        DB_TYPE: postgres
-        HOST: q-s0.postgres.default.pgrc-example.bosh:5432
-        NAME: gitea_example
-        USER: gitea_example
-        PASSWD: change-it
+        DB_TYPE                : ((db_type))
+        HOST                   : ((db_host))
+        NAME                   : ((db_name))
+        USER                   : ((db_user))
+        PASSWD                 : ((db_password))
       security:
-        INTERNAL_TOKEN: "((gitea_internal_token))"
-        # INSTALL_LOCK: false # if you need add user
+        INTERNAL_TOKEN         : "((gitea_internal_token))"
 
   gitea.env:
     description: "Environment variables map"

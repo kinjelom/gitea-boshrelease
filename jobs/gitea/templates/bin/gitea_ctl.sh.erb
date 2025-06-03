@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+set -eu
+
+STORE_DIR=/var/vcap/store/gitea
+PKG_DIR=/var/vcap/packages/gitea
+RUN_DIR=/var/vcap/sys/run/gitea
+LOG_DIR=/var/vcap/sys/log/gitea
+mkdir -p "$RUN_DIR" "$LOG_DIR"
+chown vcap:vcap -R "$RUN_DIR" "$LOG_DIR"
+
+PIDFILE="${RUN_DIR}/gitea.pid"
+
+exec 1>> ${LOG_DIR}/$(basename "$0").stdout.log
+exec 2>> ${LOG_DIR}/$(basename "$0").stderr.log
+
+source "${PKG_DIR}/common/pid_utils.sh"
+
+case $1 in
+
+  start)
+    pid_guard ${PIDFILE} "gitea"
+
+    export HOME="$STORE_DIR"
+    export PATH="$PATH:$PKG_DIR/bin:/var/vcap/packages/git/bin"
+    <%- p("gitea.env", {}).each do |key, val| -%>
+    export <%= key %>='<%= val %>'
+    <%- end -%>
+
+    exec chpst -u vcap:vcap gitea web --config "$STORE_DIR/config/app.ini" --pid "$PIDFILE" \
+      1>>  "${LOG_DIR}/gitea.stdout.log" \
+      2>> "${LOG_DIR}/gitea.stderr.log"
+    ;;
+
+  stop)
+    kill_and_wait ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

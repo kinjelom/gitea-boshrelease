@@ -44,8 +44,6 @@ instance_groups:
   networks:
   - name: default
   jobs:
-  - name: bpm
-    release: bpm
   - name: gitea
     release: gitea
     tags:
@@ -81,8 +79,6 @@ variables:
 releases:
 - name: gitea
   version: ((gitea_version))
-- name: bpm
-  version: latest
 
 stemcells:
 - alias: default

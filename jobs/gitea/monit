@@ -1,9 +1,6 @@
 # monit 5.2.5 https://gist.github.com/oppegard/46dfa1e40b46aff1fa73c81b10341cab
-
 check process gitea
-  with pidfile /var/vcap/sys/run/bpm/gitea/gitea.pid
-  start program "/var/vcap/jobs/bpm/bin/bpm start gitea"
-  stop program "/var/vcap/jobs/bpm/bin/bpm stop gitea"
+  with pidfile /var/vcap/sys/run/gitea/gitea.pid
+  start program "/var/vcap/jobs/gitea/bin/gitea_ctl start"
+  stop program "/var/vcap/jobs/gitea/bin/gitea_ctl stop"
   group vcap
-
-

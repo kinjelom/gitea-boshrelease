@@ -3,4 +3,5 @@ name: gitea
 
 files:
 - meta-info/blobs-versions.env
+- common/*
 - gitea/gitea-*
